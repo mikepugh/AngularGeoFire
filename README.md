@@ -1,7 +1,7 @@
 AngularGeoFire
 ==============
 
-Angular service wrapping the GeoFire geospatial lib for Firebase.
+Angular service wrapping the [GeoFire](https://www.firebase.com/blog/2013-09-25-location-queries-geofire.html) geospatial lib for [Firebase](https://www.firebase.com/).
 
 Usage
 -----
@@ -34,3 +34,8 @@ angular.module('yourApp')
   });
   
 ````
+
+
+License
+-------
+MIT
