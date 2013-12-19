@@ -9,7 +9,7 @@
 
     angular.module('angularGeoFire', [])
         .factory("$geofire", ["$q", "$timeout",
-            , function($q, $timeout) {
+            function($q, $timeout) {
                 return function(geoRef) {
                     var gf = new AngularGeoFire($q, $timeout, geoRef);
                     return gf.construct();
@@ -115,6 +115,60 @@
                 });
                 return deferred.promise;
             };
+
+            object.$onPointsNearLoc = function(latLon, radius, callback) {
+                self._timeout(function() {
+                   self._geoFire.onPointsNearLoc(latLon, radius, callback);
+                });
+            };
+
+            object.$offPointsNearLoc = function(latLon, radius, callback) {
+                self._timeout(function() {
+                    self._geoFire.offPointsNearLoc(latLon, radius, callback);
+                });
+            };
+
+            object.$getPointsNearId = function(id, radius) {
+                var deferred = self._q.defer();
+                self._timeout(function() {
+                    self._geoFire.getPointsNearId(id, radius, function(array) {
+                        if(!error) {
+                            deferred.resolve();
+                        } else {
+                            deferred.reject(error);
+                        }
+                    });
+                });
+                return deferred.promise;
+            };
+
+            object.$onPointsNearId = function(id, radius, callback) {
+                self._timeout(function() {
+                    self._geoFire.onPointsNearId(id, radius, callback);
+                });
+            };
+
+            object.$offPointsNearId = function(id, radius, callback) {
+                self._timeout(function() {
+                    self._geoFire.offPointsNearId(id, radius, callback);
+                });
+            };
+
+            object.$encode = function(latLon, precision) {
+                return self._geoFire.encode(latLon, precision);
+            };
+            object.$decode = function(geohash) {
+                return self._geoFire.decode(geohash);
+            };
+            object.$miles2km = function(miles) {
+                return self._geoFire.miles2km(miles);
+            };
+            object.$km2miles = function(km) {
+                return self._geoFire.km2miles(km);
+            };
+
+            self._object = object;
+            return self._object;
         }
     }
 
