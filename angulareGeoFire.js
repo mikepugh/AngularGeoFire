@@ -36,11 +36,11 @@
                 var deferred = self._q.defer();
                 self._timeout(function() {
                     self._geoFire.insertByLoc(latLon, data, function(error) {
-                       if(!error) {
-                           deferred.resolve();
-                       } else {
-                           deferred.reject(error);
-                       }
+                        if(!error) {
+                            deferred.resolve(null);
+                        } else {
+                            deferred.reject(error);
+                        }
                     });
                 });
                 return deferred.promise;
@@ -51,7 +51,7 @@
                 self._timeout(function() {
                     self._geoFire.insertByLocWithId(latLon, id, data, function(error) {
                         if(!error) {
-                            deferred.resolve();
+                            deferred.resolve(null);
                         } else {
                             deferred.reject(error);
                         }
@@ -65,7 +65,7 @@
                 self._timeout(function() {
                     self._geoFire.removeById(id, function(error) {
                         if(!error) {
-                            deferred.resolve();
+                            deferred.resolve(null);
                         } else {
                             deferred.reject(error);
                         }
@@ -81,7 +81,7 @@
                         if(latLon) {
                             deferred.resolve(latLon);
                         } else {
-                            deferred.reject();
+                            deferred.reject(null);
                         }
                     });
                 });
@@ -93,7 +93,7 @@
                 self._timeout(function() {
                     self._geoFire.updateLocForId(latLon, id, function(error) {
                         if(!error) {
-                            deferred.resolve();
+                            deferred.resolve(null);
                         } else {
                             deferred.reject(error);
                         }
@@ -106,11 +106,7 @@
                 var deferred = self._q.defer();
                 self._timeout(function() {
                     self._geoFire.getPointsNearLoc(latLon, radius, function(array) {
-                        if(!error) {
-                            deferred.resolve();
-                        } else {
-                            deferred.reject(error);
-                        }
+                        deferred.resolve(array);
                     });
                 });
                 return deferred.promise;
@@ -118,7 +114,7 @@
 
             object.$onPointsNearLoc = function(latLon, radius, callback) {
                 self._timeout(function() {
-                   self._geoFire.onPointsNearLoc(latLon, radius, callback);
+                    self._geoFire.onPointsNearLoc(latLon, radius, callback);
                 });
             };
 
@@ -132,11 +128,7 @@
                 var deferred = self._q.defer();
                 self._timeout(function() {
                     self._geoFire.getPointsNearId(id, radius, function(array) {
-                        if(!error) {
-                            deferred.resolve();
-                        } else {
-                            deferred.reject(error);
-                        }
+                        deferred.resolve(array);
                     });
                 });
                 return deferred.promise;
