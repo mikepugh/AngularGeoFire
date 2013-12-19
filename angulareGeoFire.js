@@ -32,10 +32,10 @@
             var self = this;
             var object = {};
 
-            object.$insertByLoc = function(latLon, obj) {
+            object.$insertByLoc = function(latLon, data) {
                 var deferred = self._q.defer();
                 self._timeout(function() {
-                    self._geoFire.insertByLoc(latLon, obj, function(error) {
+                    self._geoFire.insertByLoc(latLon, data, function(error) {
                        if(!error) {
                            deferred.resolve();
                        } else {
@@ -49,7 +49,7 @@
             object.$insertByLocWithId = function(latLon, id, data) {
                 var deferred = self._q.defer();
                 self._timeout(function() {
-                    self._geoFire.insertByLocWithId(latLon, obj, id, function(error) {
+                    self._geoFire.insertByLocWithId(latLon, id, data, function(error) {
                         if(!error) {
                             deferred.resolve();
                         } else {
