@@ -5,9 +5,20 @@ Angular service wrapping the [GeoFire](https://www.firebase.com/blog/2013-09-25-
 
 Usage
 -----
-Be sure to include firebase and geoFire libraries.
+````
+bower install angularGeoFire
+````
 
-Include angularGeoFire.js and then include it in your app dependency. The API matches that of geoFire @ https://github.com/firebase/geoFire, just prefix the method calls with a $ (ex: $geoFire.$getPointsNearLoc)
+In your app, include the Firebase and GeoFire libraries (technically AngularGeoFire doesn't really depend on AngularFire but you'll probably want to use it. GeoFire stores data redundantly so you'll want to keep the objects you store with it (via $insertByLocWithId method) down to a minimum, preferrably just the id and then you'd use AngularFire to perform a look-up of the object's data using the id queried with GeoFire.
+
+````
+<script src="//cdn.firebase.com/v0/firebase.js"></script>
+<script src="bower_components/angularfire/angularfire.js"></script>
+<script src="bower_components/geoFire/geoFire.js"></script>
+<script src="bower_components/AngularGeoFire/dist/angularGeoFire.js"></script>
+````
+
+Include angularGeoFire.min.js and then include it in your app dependency. The API matches that of geoFire @ https://github.com/firebase/geoFire, just prefix the method calls with a $ (ex: $geoFire.$getPointsNearLoc). AngularGeoFire returns promises vs geoFire's passing of callbacks, with the exception of the $onPointsNearXX and $offPointsNearXX methods which still require callbacks since geoFire maps the callback functions internally.
 
 ````javascript
 angular.module('yourApp', ['angularGeoFire']);
@@ -19,18 +30,17 @@ Then you can reference the dependency in your services or controllers
 
 angular.module('yourApp')
   .controller('SomeCtrl', function($scope, $geofire, $log) {
+    $scope.myPoints = [];
+    
     var geo = $geofire(new Firebase('https://<<your-firebase>>.firebaseio.com/'));
     var someObj = { id: "some-key", make: "Tesla" };
-    // Trivial example of inserting some data and then immediately querying it
-    geo.$insertByLocWithId([37.771393,-122.447104], someObj.id, someObj)
-      .then(function() {
-        // Now that the data is inserted - go ahead and query it
-        geo.$getPointsNearLoc([37.771393,-122.447104],5)
+    // Trivial example of inserting some data and querying data
+    geo.$insertByLocWithId([37.771393,-122.447104], someObj.id, someObj).catch(function(err) { $log.error(err); });
+    // Query for data
+    geo.$getPointsNearLoc([37.771393,-122.447104],5)
           .then(function(array) {
             $scope.myPoints = array;
           });
-      })
-      .catch(function(err) { $log.error(err); });
   });
   
 ````
