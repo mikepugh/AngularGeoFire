@@ -18,7 +18,7 @@ Then you can reference the dependency in your services or controllers
 ````javascript
 
 angular.module('yourApp')
-  .controller('SomeCtrl', function($scope, $geoFire, $log) {
+  .controller('SomeCtrl', function($scope, $geofire, $log) {
     var geo = $geofire(new Firebase('https://<<your-firebase>>.firebaseio.com/'));
     var someObj = { id: "some-key", make: "Tesla" };
     // Trivial example of inserting some data and then immediately querying it
