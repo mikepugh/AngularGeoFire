@@ -8,8 +8,7 @@
     var AngularGeoFire;
 
     angular.module('angularGeoFire', [])
-        .factory('$geofire',
-        function ($q, $timeout) {
+        .factory('$geofire', function ($q, $timeout) {
             return function (geoRef) {
                 var gf = new AngularGeoFire($q, $timeout, geoRef);
                 return gf.construct();
