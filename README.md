@@ -18,7 +18,7 @@ In your app, include the Firebase and GeoFire libraries (technically AngularGeoF
 <script src="bower_components/AngularGeoFire/dist/angularGeoFire.js"></script>
 ````
 
-Include angularGeoFire.min.js and then include it in your app dependency. The API matches that of geoFire @ https://github.com/firebase/geoFire, just prefix the method calls with a $ (ex: $geoFire.$getPointsNearLoc). AngularGeoFire returns promises vs geoFire's passing of callbacks, with the exception of the $onPointsNearXX and $offPointsNearXX methods which still require callbacks since geoFire maps the callback functions internally.
+Include angularGeoFire.min.js and then include it in your app dependency. The API matches that of geoFire @ https://github.com/firebase/geoFire, just prefix the method calls with a $ (ex: $geoFire.$getPointsNearLoc). AngularGeoFire returns promises vs geoFire's passing of callbacks, with the exception of the $onPointsNearXX and $offPointsNearXX methods which accept a broadcast name and will broadcast the data from geoFire using the broadcast name passed in.
 
 ````javascript
 angular.module('yourApp', ['angularGeoFire']);
