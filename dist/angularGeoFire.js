@@ -4,21 +4,25 @@
   angular.module('angularGeoFire', []).factory('$geofire', [
     '$q',
     '$timeout',
-    function ($q, $timeout) {
+    '$rootScope',
+    function ($q, $timeout, $rootScope) {
       return function (geoRef) {
-        var gf = new AngularGeoFire($q, $timeout, geoRef);
+        var gf = new AngularGeoFire($q, $timeout, $rootScope, geoRef);
         return gf.construct();
       };
     }
   ]);
-  AngularGeoFire = function ($q, $timeout, geoRef) {
+  AngularGeoFire = function ($q, $timeout, $rootScope, geoRef) {
     this._q = $q;
+    this._rootScope = $rootScope;
     this._timeout = $timeout;
     if (typeof geoRef === 'string') {
       throw new Error('Please provide a Firebase reference instead of a URL');
     }
     this._geoRef = geoRef;
     this._geoFire = new geoFire(this._geoRef);
+    this._onPointsNearLocCallbacks = [];
+    this._onPointsNearId = [];
   };
   AngularGeoFire.prototype = {
     construct: function () {
@@ -98,14 +102,18 @@
         });
         return deferred.promise;
       };
-      object.$onPointsNearLoc = function (latLon, radius, callback) {
+      object.$onPointsNearLoc = function (latLon, radius, broadcastName) {
+        self._onPointsNearLocCallbacks[broadcastName] = function (array) {
+          self._rootScope.$broadcast(broadcastName, latLon, radius, array);
+        };
         self._timeout(function () {
-          self._geoFire.onPointsNearLoc(latLon, radius, callback);
+          self._geoFire.onPointsNearLoc(latLon, radius, self._onPointsNearLocCallbacks[broadcastName]);
         });
       };
-      object.$offPointsNearLoc = function (latLon, radius, callback) {
+      object.$offPointsNearLoc = function (latLon, radius, broadcastName) {
         self._timeout(function () {
-          self._geoFire.offPointsNearLoc(latLon, radius, callback);
+          self._geoFire.offPointsNearLoc(latLon, radius, self._onPointsNearLocCallbacks[broadcastName]);
+          self._onPointsNearLocCallbacks[broadcastName] = null;
         });
       };
       object.$getPointsNearId = function (id, radius) {
@@ -117,14 +125,18 @@
         });
         return deferred.promise;
       };
-      object.$onPointsNearId = function (id, radius, callback) {
+      object.$onPointsNearId = function (id, radius, broadcastName) {
+        self._onPointsNearId[broadcastName] = function (array) {
+          self._rootScope.$broadcast(broadcastName, id, radius, array);
+        };
         self._timeout(function () {
-          self._geoFire.onPointsNearId(id, radius, callback);
+          self._geoFire.onPointsNearId(id, radius, self._onPointsNearId[broadcastName]);
         });
       };
-      object.$offPointsNearId = function (id, radius, callback) {
+      object.$offPointsNearId = function (id, radius, broadcastName) {
         self._timeout(function () {
-          self._geoFire.offPointsNearId(id, radius, callback);
+          self._geoFire.offPointsNearId(id, radius, self._onPointsNearId[broadcastName]);
+          self._onPointsNearId[broadcastName] = null;
         });
       };
       object.$encode = function (latLon, precision) {
