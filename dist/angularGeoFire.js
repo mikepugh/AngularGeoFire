@@ -5,8 +5,10 @@
     '$q',
     '$timeout',
     '$rootScope',
-    function ($q, $timeout, $rootScope) {
+    '$log',
+    function ($q, $timeout, $rootScope, $log) {
       return function (geoRef) {
+        $log.info('Constructing $geofire');
         var gf = new AngularGeoFire($q, $timeout, $rootScope, geoRef);
         return gf.construct();
       };

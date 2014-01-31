@@ -1,5 +1,6 @@
 /**
  * Created by Mike on 12/19/13.
+ * Updated on 1/30/2014
  */
 
 (function () {
@@ -8,8 +9,9 @@
     var AngularGeoFire;
 
     angular.module('angularGeoFire', [])
-        .factory('$geofire', function ($q, $timeout, $rootScope) {
+        .factory('$geofire', function ($q, $timeout, $rootScope, $log) {
             return function (geoRef) {
+                $log.info('Constructing $geofire');
                 var gf = new AngularGeoFire($q, $timeout, $rootScope, geoRef);
                 return gf.construct();
             };
@@ -174,6 +176,7 @@
 
             self._object = object;
             return self._object;
+
         }
     };
 
