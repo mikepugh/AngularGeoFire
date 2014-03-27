@@ -113,10 +113,10 @@
         });
       };
       object.$offPointsNearLoc = function (latLon, radius, broadcastName) {
-        self._timeout(function () {
+        if (self._onPointsNearLocCallbacks[broadcastName]) {
           self._geoFire.offPointsNearLoc(latLon, radius, self._onPointsNearLocCallbacks[broadcastName]);
-          self._onPointsNearLocCallbacks[broadcastName] = null;
-        });
+          delete self._onPointsNearLocCallbacks[broadcastName];
+        }
       };
       object.$getPointsNearId = function (id, radius) {
         var deferred = self._q.defer();
@@ -136,10 +136,10 @@
         });
       };
       object.$offPointsNearId = function (id, radius, broadcastName) {
-        self._timeout(function () {
+        if (self._onPointsNearId[broadcastName]) {
           self._geoFire.offPointsNearId(id, radius, self._onPointsNearId[broadcastName]);
-          self._onPointsNearId[broadcastName] = null;
-        });
+          delete self._onPointsNearId[broadcastName];
+        }
       };
       object.$encode = function (latLon, precision) {
         return self._geoFire.encode(latLon, precision);
