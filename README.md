@@ -3,7 +3,7 @@ AngularGeoFire
 
 Angular service wrapping the [GeoFire](https://www.firebase.com/blog/2013-09-25-location-queries-geofire.html) geospatial lib for [Firebase](https://www.firebase.com/).
 
-[![Build Status](https://travis-ci.org/mikepugh/AngularGeoFire.svg?branch=master)](https://travis-ci.org/mikepugh/AngularGeoFire) [![Coverage Status](https://coveralls.io/repos/mikepugh/AngularGeoFire/badge.png)](https://coveralls.io/r/mikepugh/AngularGeoFire)
+[![Build Status](https://travis-ci.org/mikepugh/AngularGeoFire.svg?branch=master)](https://travis-ci.org/mikepugh/AngularGeoFire) [![Coverage Status](https://coveralls.io/repos/mikepugh/AngularGeoFire/badge.png)](https://coveralls.io/r/mikepugh/AngularGeoFire) [![Bower version](https://badge.fury.io/bo/angularGeoFire.svg)](http://badge.fury.io/bo/angularGeoFire)
 
 Usage
 -----
@@ -47,6 +47,9 @@ angular.module('yourApp')
   
 ````
 
+Contribute
+----------
+[![Hack mikepugh/angularGeoFire on Nitrous.IO](https://d3o0mnbgv6k92a.cloudfront.net/assets/hack-l-v1-3cc067e71372f6045e1949af9d96095b.png)](https://www.nitrous.io/hack_button?source=embed&runtime=nodejs&repo=mikepugh%2FangularGeoFire)
 
 License
 -------
