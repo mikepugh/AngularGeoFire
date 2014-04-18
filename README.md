@@ -3,7 +3,7 @@ AngularGeoFire
 
 Angular service wrapping the [GeoFire](https://www.firebase.com/blog/2013-09-25-location-queries-geofire.html) geospatial lib for [Firebase](https://www.firebase.com/).
 
-[![Build Status](https://travis-ci.org/mikepugh/AngularGeoFire.svg?branch=master)](https://travis-ci.org/mikepugh/AngularGeoFire)
+[![Build Status](https://travis-ci.org/mikepugh/AngularGeoFire.svg?branch=master)](https://travis-ci.org/mikepugh/AngularGeoFire) [![Coverage Status](https://coveralls.io/repos/mikepugh/AngularGeoFire/badge.png)](https://coveralls.io/r/mikepugh/AngularGeoFire)
 
 Usage
 -----
