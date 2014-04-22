@@ -5,7 +5,7 @@
     "Mike Pugh <mikepugh82@gmail.com>"
   ],
   "description": "Angular GeoFire Module",
-  "main": "angularGeoFire.js",
+  "main": "src/angularGeoFire.js",
   "keywords": [
     "angular",
     "firebase",
