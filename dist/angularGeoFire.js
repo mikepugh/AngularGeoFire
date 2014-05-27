@@ -26,7 +26,7 @@
       throw new Error('Please provide a Firebase reference instead of a URL');
     }
     this._geoRef = geoRef;
-    this._geoFire = new geoFire(this._geoRef);
+    this._geoFire = new GeoFire(this._geoRef);
     this._onPointsNearLocCallbacks = [];
     this._onPointsNearId = [];
   };

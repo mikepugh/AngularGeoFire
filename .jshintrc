@@ -20,6 +20,6 @@
     "smarttabs": true,
     "globals": {
         "angular": false,
-        "geoFire": false
+        "GeoFire": false
     }
 }
