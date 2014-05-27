@@ -1,3 +1,7 @@
+/**
+ * Created by Mike Pugh on 05/27/2014. MIT License.
+
+ */
 (function () {
   'use strict';
   var AngularGeoFire;
@@ -30,128 +34,86 @@
     construct: function () {
       var self = this;
       var object = {};
-      object.$insertByLoc = function (latLon, data) {
+      object.$set = function (key, location) {
         var deferred = self._q.defer();
         self._timeout(function () {
-          self._geoFire.insertByLoc(latLon, data, function (error) {
-            if (!error) {
-              deferred.resolve(null);
-            } else {
+          self._geoFire.set(key, location).then(function () {
+            deferred.resolve(null);
+          }).catch(function (error) {
+            deferred.reject(error);
+          });
+        });
+        return deferred.promise;
+      };
+      object.$remove = function (key) {
+        var deferred = self._q.defer();
+        self._timeout(function () {
+          self._geoFire.remove(key).then(function () {
+            deferred.resolve(null);
+          }).catch(function (error) {
+            deferred.reject(error);
+          });
+        });
+        return deferred.promise;
+      };
+      object.$get = function (key) {
+        var deferred = self._q.defer();
+        self._timeout(function () {
+          self._geoFire.get(key).then(function (location) {
+            deferred.resolve(location);
+          }).catch(function (error) {
+            deferred.reject(error);
+          });
+        });
+        return deferred.promise;
+      };
+      object.$query = function (queryCriteria) {
+        var _geoQuery = self._geoFire.query(queryCriteria);
+        return {
+          getCenter: function () {
+            return _geoQuery.getCenter();
+          },
+          getRadius: function () {
+            return _geoQuery.getRadius();
+          },
+          updateQueryCriteria: function (newQueryCriteria) {
+            _geoQuery.updateQueryCriteria(newQueryCriteria);
+          },
+          getResults: function () {
+            var deferred = self._q.defer();
+            _geoQuery.getResults().then(function (results) {
+              deferred.resolve(results);
+            }).catch(function (error) {
               deferred.reject(error);
-            }
-          });
-        });
-        return deferred.promise;
-      };
-      object.$insertByLocWithId = function (latLon, id, data) {
-        var deferred = self._q.defer();
-        self._timeout(function () {
-          self._geoFire.insertByLocWithId(latLon, id, data, function (error) {
-            if (!error) {
-              deferred.resolve(null);
-            } else {
-              deferred.reject(error);
-            }
-          });
-        });
-        return deferred.promise;
-      };
-      object.$removeById = function (id) {
-        var deferred = self._q.defer();
-        self._timeout(function () {
-          self._geoFire.removeById(id, function (error) {
-            if (!error) {
-              deferred.resolve(null);
-            } else {
-              deferred.reject(error);
-            }
-          });
-        });
-        return deferred.promise;
-      };
-      object.$getLocById = function (id) {
-        var deferred = self._q.defer();
-        self._timeout(function () {
-          self._geoFire.getLocById(id, function (latLon) {
-            if (latLon) {
-              deferred.resolve(latLon);
-            } else {
-              deferred.reject(null);
-            }
-          });
-        });
-        return deferred.promise;
-      };
-      object.$updateLocForId = function (latLon, id) {
-        var deferred = self._q.defer();
-        self._timeout(function () {
-          self._geoFire.updateLocForId(latLon, id, function (error) {
-            if (!error) {
-              deferred.resolve(null);
-            } else {
-              deferred.reject(error);
-            }
-          });
-        });
-        return deferred.promise;
-      };
-      object.$getPointsNearLoc = function (latLon, radius) {
-        var deferred = self._q.defer();
-        self._timeout(function () {
-          self._geoFire.getPointsNearLoc(latLon, radius, function (array) {
-            deferred.resolve(array);
-          });
-        });
-        return deferred.promise;
-      };
-      object.$onPointsNearLoc = function (latLon, radius, broadcastName) {
-        self._onPointsNearLocCallbacks[broadcastName] = function (array) {
-          self._rootScope.$broadcast(broadcastName, latLon, radius, array);
+            });
+            return deferred.promise;
+          },
+          on: function (eventType, broadcastName) {
+            return _geoQuery.on(eventType, function (key, location) {
+              self._rootScope.$broadcast(broadcastName, key, location);
+            });
+          },
+          cancel: function () {
+            _geoQuery.cancel();
+          }
         };
-        self._timeout(function () {
-          self._geoFire.onPointsNearLoc(latLon, radius, self._onPointsNearLocCallbacks[broadcastName]);
-        });
       };
-      object.$offPointsNearLoc = function (latLon, radius, broadcastName) {
-        if (self._onPointsNearLocCallbacks[broadcastName]) {
-          self._geoFire.offPointsNearLoc(latLon, radius, self._onPointsNearLocCallbacks[broadcastName]);
-          delete self._onPointsNearLocCallbacks[broadcastName];
-        }
+      var deg2rad = function (deg) {
+        return deg * Math.PI / 180;
       };
-      object.$getPointsNearId = function (id, radius) {
-        var deferred = self._q.defer();
-        self._timeout(function () {
-          self._geoFire.getPointsNearId(id, radius, function (array) {
-            deferred.resolve(array);
-          });
-        });
-        return deferred.promise;
-      };
-      object.$onPointsNearId = function (id, radius, broadcastName) {
-        self._onPointsNearId[broadcastName] = function (array) {
-          self._rootScope.$broadcast(broadcastName, id, radius, array);
-        };
-        self._timeout(function () {
-          self._geoFire.onPointsNearId(id, radius, self._onPointsNearId[broadcastName]);
-        });
-      };
-      object.$offPointsNearId = function (id, radius, broadcastName) {
-        if (self._onPointsNearId[broadcastName]) {
-          self._geoFire.offPointsNearId(id, radius, self._onPointsNearId[broadcastName]);
-          delete self._onPointsNearId[broadcastName];
-        }
-      };
-      object.$encode = function (latLon, precision) {
-        return self._geoFire.encode(latLon, precision);
-      };
-      object.$decode = function (geohash) {
-        return self._geoFire.decode(geohash);
-      };
-      object.$miles2km = function (miles) {
-        return self._geoFire.miles2km(miles);
-      };
-      object.$km2miles = function (km) {
-        return self._geoFire.km2miles(km);
+      /**
+	     * Calculate the distance between two points on a globe, via Haversine
+	     * formula, in kilometers. This is approximate due to the nature of the
+	     * Earth's radius varying between 6356.752 km through 6378.137 km.
+	     */
+      object.$dist = function (loc1, loc2) {
+        var lat1 = loc1[0], lon1 = loc1[1], lat2 = loc2[0], lon2 = loc2[1];
+        var radius = 6371,
+          // km
+          dlat = deg2rad(lat2 - lat1), dlon = deg2rad(lon2 - lon1), a, c;
+        a = Math.sin(dlat / 2) * Math.sin(dlat / 2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dlon / 2) * Math.sin(dlon / 2);
+        c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return radius * c;
       };
       self._object = object;
       return self._object;

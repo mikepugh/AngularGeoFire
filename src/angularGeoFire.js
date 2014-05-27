@@ -106,15 +106,18 @@
 			    on: function(eventType, broadcastName) {
 				    return _geoQuery.on(eventType, function(key, location) {
 					    self._rootScope.$broadcast(broadcastName, key, location);
-				    })
+				    });
 			    },
 			    cancel: function() {
 				    _geoQuery.cancel();
 			    }
-		    }
+		    };
 
 	    };
 
+	    var deg2rad = function(deg) {
+		    return deg * Math.PI / 180;
+	    };
 	    /**
 	     * Calculate the distance between two points on a globe, via Haversine
 	     * formula, in kilometers. This is approximate due to the nature of the
@@ -137,7 +140,9 @@
 
 		    c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 		    return radius * c;
-	    }
+	    };
+
+
 
 
       self._object = object;
