@@ -18,7 +18,7 @@ In your app, include the Firebase and GeoFire libraries (technically AngularGeoF
 <script src="//cdn.firebase.com/v0/firebase.js"></script>
 <script src="bower_components/rsvp/rsvp.min.js"></script>
 <script src="bower_components/angularfire/angularfire.js"></script>
-<script src="bower_components/geoFire/geoFire.js"></script>
+<script src="bower_components/geofire/dist/geoFire.min.js"></script>
 <script src="bower_components/AngularGeoFire/dist/angularGeoFire.js"></script>
 ````
 
@@ -34,17 +34,57 @@ Then you can reference the dependency in your services or controllers
 
 angular.module('yourApp')
   .controller('SomeCtrl', function($scope, $geofire, $log) {
-    $scope.myPoints = [];
+    $scope.searchResults = [];
     
-    var geo = $geofire(new Firebase('https://<<your-firebase>>.firebaseio.com/'));
-    var someObj = { id: "some-key", make: "Tesla" };
+    var $geo = $geofire(new Firebase('https://<<your-firebase>>.firebaseio.com/'));
+
     // Trivial example of inserting some data and querying data
-    geo.$insertByLocWithId([37.771393,-122.447104], someObj.id, someObj).catch(function(err) { $log.error(err); });
-    // Query for data
-    geo.$getPointsNearLoc([37.771393,-122.447104],5)
-          .then(function(array) {
-            $scope.myPoints = array;
-          });
+    $geo.$set("some_key", [37.771393,-122.447104])
+        .catch(function(err) {
+            $log.error(err);
+        });
+
+    // Get some_key's location, place it on $scope
+    $geo.$get("some_key")
+        .then(function (location) {
+            $scope.objLocation = location;
+        });
+
+    // Remove "some_key" location from forge
+    $geo.$remove("some_key")
+        .catch(function (err) {
+            $log.error(err);
+        });
+
+
+    // Setup a GeoQuery
+    var query = $geo.$query({
+        center: [37.77, -122.447],
+        radius: 20
+    });
+
+    // Setup Angular Broadcast event for when an object enters our query
+    var geoQueryCallback = query.on("key_entered", "SEARCH:KEY_ENTERED");
+
+    // Listen for Angular Broadcast
+    $rootScope.$on("SEARCH:KEY_ENTERED", function (event, key, location, distance) {
+        // Do something interesting with object
+        $scope.searchResults.push({key: key, location: location, distance: distance});
+
+        // Cancel the query if the distance is > 5 km
+        if(distance > 5) {
+            geoQueryCallback.cancel();
+        }
+    });
+
+    // See geofire documentation for other on("..") events available
+
+
+
+
+
+
+
   });
   
 ````
