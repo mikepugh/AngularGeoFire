@@ -1,10 +1,10 @@
 {
   "name": "AngularGeoFire",
-  "version": "0.6.1",
+  "version": "2.0.0",
   "authors": [
     "Mike Pugh <mikepugh82@gmail.com>"
   ],
-  "description": "Angular GeoFire Module",
+  "description": "Angular GeoFire v2 Module",
   "main": "src/angularGeoFire.js",
   "keywords": [
     "angular",
@@ -21,6 +21,6 @@
   ],
   "dependencies": {
     "angular": "~1.2.5",
-    "geoFire": "https://github.com/firebase/geoFire.git#gh-pages"
+    "geofire": "~2.0.0"
   }
 }
