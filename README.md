@@ -14,10 +14,10 @@ bower install angularGeoFire
 In your app, include the Firebase and GeoFire libraries (technically AngularGeoFire doesn't depend on AngularFire but you'll probably want to use it).
 
 ````
-<script src="//cdn.firebase.com/v0/firebase.js"></script>
+<script src="//cdn.firebase.com/js/client/1.0.17/firebase.js"></script>
 <script src="bower_components/rsvp/rsvp.min.js"></script>
 <script src="bower_components/angularfire/angularfire.js"></script>
-<script src="bower_components/geofire/dist/geoFire.min.js"></script>
+<script src="bower_components/geofire/dist/geofire.min.js"></script>
 <script src="bower_components/AngularGeoFire/dist/angularGeoFire.js"></script>
 ````
 
@@ -34,7 +34,7 @@ Then you can reference the dependency in your services or controllers
 angular.module('yourApp')
   .controller('SomeCtrl', function($scope, $geofire, $log) {
     $scope.searchResults = [];
-    
+
     var $geo = $geofire(new Firebase('https://<<your-firebase>>.firebaseio.com/'));
 
     // Trivial example of inserting some data and querying data
@@ -85,7 +85,7 @@ angular.module('yourApp')
 
 
   });
-  
+
 ````
 
 Contribute
