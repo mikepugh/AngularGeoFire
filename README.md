@@ -8,7 +8,6 @@ Angular service wrapping the [GeoFire](https://www.firebase.com/blog/2013-09-25-
 Usage
 -----
 ````
-bower install rsvp
 bower install angularGeoFire
 ````
 
