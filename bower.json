@@ -21,6 +21,6 @@
   ],
   "dependencies": {
     "angular": "~1.2.5",
-    "geoFire": "https://github.com/firebase/geoFire.git#v2"
+    "geofire": "~2.0.0"
   }
 }

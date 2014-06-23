@@ -1,7 +1,3 @@
-/**
- * Created by Mike Pugh on 05/27/2014. MIT License.
-
- */
 (function () {
   'use strict';
   var AngularGeoFire;
@@ -70,27 +66,18 @@
       object.$query = function (queryCriteria) {
         var _geoQuery = self._geoFire.query(queryCriteria);
         return {
-          getCenter: function () {
-            return _geoQuery.getCenter();
+          center: function () {
+            return _geoQuery.center();
           },
-          getRadius: function () {
-            return _geoQuery.getRadius();
+          radius: function () {
+            return _geoQuery.radius();
           },
-          updateQueryCriteria: function (newQueryCriteria) {
-            _geoQuery.updateQueryCriteria(newQueryCriteria);
-          },
-          getResults: function () {
-            var deferred = self._q.defer();
-            _geoQuery.getResults().then(function (results) {
-              deferred.resolve(results);
-            }).catch(function (error) {
-              deferred.reject(error);
-            });
-            return deferred.promise;
+          updateCriteria: function (newQueryCriteria) {
+            _geoQuery.updateCriteria(newQueryCriteria);
           },
           on: function (eventType, broadcastName) {
-            return _geoQuery.on(eventType, function (key, location) {
-              self._rootScope.$broadcast(broadcastName, key, location);
+            return _geoQuery.on(eventType, function (key, location, distance) {
+              self._rootScope.$broadcast(broadcastName, key, location, distance);
             });
           },
           cancel: function () {
@@ -98,22 +85,8 @@
           }
         };
       };
-      var deg2rad = function (deg) {
-        return deg * Math.PI / 180;
-      };
-      /**
-	     * Calculate the distance between two points on a globe, via Haversine
-	     * formula, in kilometers. This is approximate due to the nature of the
-	     * Earth's radius varying between 6356.752 km through 6378.137 km.
-	     */
-      object.$dist = function (loc1, loc2) {
-        var lat1 = loc1[0], lon1 = loc1[1], lat2 = loc2[0], lon2 = loc2[1];
-        var radius = 6371,
-          // km
-          dlat = deg2rad(lat2 - lat1), dlon = deg2rad(lon2 - lon1), a, c;
-        a = Math.sin(dlat / 2) * Math.sin(dlat / 2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dlon / 2) * Math.sin(dlon / 2);
-        c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return radius * c;
+      object.$distance = function (location1, location2) {
+        return self._geoFire.distance(location1, location2);
       };
       self._object = object;
       return self._object;
