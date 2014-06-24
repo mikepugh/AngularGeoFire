@@ -1,40 +1,42 @@
 <!DOCTYPE html>
 <html>
-
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="AngularGeoFire : Angular service wrapping the GeoFire geospatial lib for Firebase" />
-
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>AngularGeoFire</title>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>AngularGeoFire by mikepugh</title>
   </head>
 
   <body>
+    <div id="container">
+      <div class="inner">
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/mikepugh/AngularGeoFire">View on GitHub</a>
-
-          <h1 id="project_title">AngularGeoFire</h1>
-          <h2 id="project_tagline">Angular service wrapping the GeoFire geospatial lib for Firebase</h2>
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/mikepugh/AngularGeoFire/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/mikepugh/AngularGeoFire/tarball/master">Download this project as a tar.gz file</a>
-            </section>
+        <header>
+          <h1>AngularGeoFire</h1>
+          <h2>Angular service wrapping the GeoFire geospatial lib for Firebase</h2>
         </header>
-    </div>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h1>
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/mikepugh/AngularGeoFire/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/mikepugh/AngularGeoFire/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/mikepugh/AngularGeoFire" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
 <a name="angulargeofire" class="anchor" href="#angulargeofire"><span class="octicon octicon-link"></span></a>AngularGeoFire</h1>
 
 <p>Angular service wrapping the <a href="https://www.firebase.com/blog/2013-09-25-location-queries-geofire.html">GeoFire</a> geospatial lib for <a href="https://www.firebase.com/">Firebase</a>.</p>
+
+<p><a href="https://travis-ci.org/mikepugh/AngularGeoFire"><img src="https://travis-ci.org/mikepugh/AngularGeoFire.svg?branch=v2" alt="Build Status"></a> <a href="https://coveralls.io/r/mikepugh/AngularGeoFire"><img src="https://coveralls.io/repos/mikepugh/AngularGeoFire/badge.png" alt="Coverage Status"></a> <a href="http://badge.fury.io/bo/angularGeoFire"><img src="https://badge.fury.io/bo/angularGeoFire.svg" alt="Bower version"></a></p>
 
 <h2>
 <a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
@@ -42,15 +44,16 @@
 <pre><code>bower install angularGeoFire
 </code></pre>
 
-<p>In your app, include the Firebase and GeoFire libraries (technically AngularGeoFire doesn't depend on AngularFire but you'll probably want to use it). GeoFire stores data redundantly so you'll want to keep the objects you store with it (via $insertByLocWithId method) down to a minimum, preferrably just the id and then you'd use AngularFire to perform a look-up of the object's data using the id queried with GeoFire.</p>
+<p>In your app, include the Firebase and GeoFire libraries (technically AngularGeoFire doesn't depend on AngularFire but you'll probably want to use it).</p>
 
-<pre><code>&lt;script src="//cdn.firebase.com/v0/firebase.js"&gt;&lt;/script&gt;
+<pre><code>&lt;script src="//cdn.firebase.com/js/client/1.0.17/firebase.js"&gt;&lt;/script&gt;
+&lt;script src="bower_components/rsvp/rsvp.min.js"&gt;&lt;/script&gt;
 &lt;script src="bower_components/angularfire/angularfire.js"&gt;&lt;/script&gt;
-&lt;script src="bower_components/geoFire/geoFire.js"&gt;&lt;/script&gt;
+&lt;script src="bower_components/geofire/dist/geofire.min.js"&gt;&lt;/script&gt;
 &lt;script src="bower_components/AngularGeoFire/dist/angularGeoFire.js"&gt;&lt;/script&gt;
 </code></pre>
 
-<p>Include angularGeoFire.min.js and then include it in your app dependency. The API matches that of geoFire @ <a href="https://github.com/firebase/geoFire">https://github.com/firebase/geoFire</a>, just prefix the method calls with a $ (ex: $geoFire.$getPointsNearLoc). AngularGeoFire returns promises vs geoFire's passing of callbacks, with the exception of the $onPointsNearXX and $offPointsNearXX methods which accept a broadcast name and will broadcast the data from geoFire using the broadcast name passed in.</p>
+<p>Include angularGeoFire.min.js and then include it in your app dependency. The API matches that of geoFire @ <a href="https://github.com/firebase/geoFire">https://github.com/firebase/geoFire</a>, just prefix the method calls with a $ (ex: $geoFire.$set). AngularGeoFire translates GeoFire's RSVP promises into Angular $q service promises. The GeoFire "on" events are translated into Angular broadcasts to be consumed anywhere in your app.</p>
 
 <div class="highlight highlight-javascript"><pre><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'yourApp'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'angularGeoFire'</span><span class="p">]);</span>
 </pre></div>
@@ -60,37 +63,79 @@
 <div class="highlight highlight-javascript"><pre>
 <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'yourApp'</span><span class="p">)</span>
   <span class="p">.</span><span class="nx">controller</span><span class="p">(</span><span class="s1">'SomeCtrl'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$scope</span><span class="p">,</span> <span class="nx">$geofire</span><span class="p">,</span> <span class="nx">$log</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">$scope</span><span class="p">.</span><span class="nx">myPoints</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="nx">$scope</span><span class="p">.</span><span class="nx">searchResults</span> <span class="o">=</span> <span class="p">[];</span>
 
-    <span class="kd">var</span> <span class="nx">geo</span> <span class="o">=</span> <span class="nx">$geofire</span><span class="p">(</span><span class="k">new</span> <span class="nx">Firebase</span><span class="p">(</span><span class="s1">'https://&lt;&lt;your-firebase&gt;&gt;.firebaseio.com/'</span><span class="p">));</span>
-    <span class="kd">var</span> <span class="nx">someObj</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">id</span><span class="o">:</span> <span class="s2">"some-key"</span><span class="p">,</span> <span class="nx">make</span><span class="o">:</span> <span class="s2">"Tesla"</span> <span class="p">};</span>
+    <span class="kd">var</span> <span class="nx">$geo</span> <span class="o">=</span> <span class="nx">$geofire</span><span class="p">(</span><span class="k">new</span> <span class="nx">Firebase</span><span class="p">(</span><span class="s1">'https://&lt;&lt;your-firebase&gt;&gt;.firebaseio.com/'</span><span class="p">));</span>
+
     <span class="c1">// Trivial example of inserting some data and querying data</span>
-    <span class="nx">geo</span><span class="p">.</span><span class="nx">$insertByLocWithId</span><span class="p">([</span><span class="mf">37.771393</span><span class="p">,</span><span class="o">-</span><span class="mf">122.447104</span><span class="p">],</span> <span class="nx">someObj</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">someObj</span><span class="p">).</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span> <span class="nx">$log</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span> <span class="p">});</span>
-    <span class="c1">// Query for data</span>
-    <span class="nx">geo</span><span class="p">.</span><span class="nx">$getPointsNearLoc</span><span class="p">([</span><span class="mf">37.771393</span><span class="p">,</span><span class="o">-</span><span class="mf">122.447104</span><span class="p">],</span><span class="mi">5</span><span class="p">)</span>
-          <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">array</span><span class="p">)</span> <span class="p">{</span>
-            <span class="nx">$scope</span><span class="p">.</span><span class="nx">myPoints</span> <span class="o">=</span> <span class="nx">array</span><span class="p">;</span>
-          <span class="p">});</span>
+    <span class="nx">$geo</span><span class="p">.</span><span class="nx">$set</span><span class="p">(</span><span class="s2">"some_key"</span><span class="p">,</span> <span class="p">[</span><span class="mf">37.771393</span><span class="p">,</span><span class="o">-</span><span class="mf">122.447104</span><span class="p">])</span>
+        <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">$log</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+        <span class="p">});</span>
+
+    <span class="c1">// Get some_key's location, place it on $scope</span>
+    <span class="nx">$geo</span><span class="p">.</span><span class="nx">$get</span><span class="p">(</span><span class="s2">"some_key"</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">location</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">$scope</span><span class="p">.</span><span class="nx">objLocation</span> <span class="o">=</span> <span class="nx">location</span><span class="p">;</span>
+        <span class="p">});</span>
+
+    <span class="c1">// Remove "some_key" location from forge</span>
+    <span class="nx">$geo</span><span class="p">.</span><span class="nx">$remove</span><span class="p">(</span><span class="s2">"some_key"</span><span class="p">)</span>
+        <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">$log</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+        <span class="p">});</span>
+
+
+    <span class="c1">// Setup a GeoQuery</span>
+    <span class="kd">var</span> <span class="nx">query</span> <span class="o">=</span> <span class="nx">$geo</span><span class="p">.</span><span class="nx">$query</span><span class="p">({</span>
+        <span class="nx">center</span><span class="o">:</span> <span class="p">[</span><span class="mf">37.77</span><span class="p">,</span> <span class="o">-</span><span class="mf">122.447</span><span class="p">],</span>
+        <span class="nx">radius</span><span class="o">:</span> <span class="mi">20</span>
+    <span class="p">});</span>
+
+    <span class="c1">// Setup Angular Broadcast event for when an object enters our query</span>
+    <span class="kd">var</span> <span class="nx">geoQueryCallback</span> <span class="o">=</span> <span class="nx">query</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">"key_entered"</span><span class="p">,</span> <span class="s2">"SEARCH:KEY_ENTERED"</span><span class="p">);</span>
+
+    <span class="c1">// Listen for Angular Broadcast</span>
+    <span class="nx">$rootScope</span><span class="p">.</span><span class="nx">$on</span><span class="p">(</span><span class="s2">"SEARCH:KEY_ENTERED"</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">location</span><span class="p">,</span> <span class="nx">distance</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Do something interesting with object</span>
+        <span class="nx">$scope</span><span class="p">.</span><span class="nx">searchResults</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span><span class="nx">key</span><span class="o">:</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">location</span><span class="o">:</span> <span class="nx">location</span><span class="p">,</span> <span class="nx">distance</span><span class="o">:</span> <span class="nx">distance</span><span class="p">});</span>
+
+        <span class="c1">// Cancel the query if the distance is &gt; 5 km</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">distance</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">geoQueryCallback</span><span class="p">.</span><span class="nx">cancel</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+
+    <span class="c1">// See geofire documentation for other on("..") events available</span>
+
+
+
+
+
+
+
   <span class="p">});</span>
 
 </pre></div>
 
 <h2>
+<a name="contribute" class="anchor" href="#contribute"><span class="octicon octicon-link"></span></a>Contribute</h2>
+
+<p><a href="https://www.nitrous.io/hack_button?source=embed&amp;runtime=nodejs&amp;repo=mikepugh%2FangularGeoFire"><img src="https://d3o0mnbgv6k92a.cloudfront.net/assets/hack-l-v1-3cc067e71372f6045e1949af9d96095b.png" alt="Hack mikepugh/angularGeoFire on Nitrous.IO"></a></p>
+
+<h2>
 <a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
 <p>MIT</p>
-      </section>
+        </section>
+
+        <footer>
+          AngularGeoFire is maintained by <a href="https://github.com/mikepugh">mikepugh</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
     </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">AngularGeoFire maintained by <a href="https://github.com/mikepugh">mikepugh</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
-
-    
-
   </body>
 </html>
