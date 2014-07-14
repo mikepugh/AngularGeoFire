@@ -21,6 +21,6 @@
   ],
   "dependencies": {
     "angular": "~1.2.5",
-    "geofire": "~2.0.0"
+    "geofire": "~2.x"
   }
 }
