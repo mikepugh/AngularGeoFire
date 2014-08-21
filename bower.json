@@ -4,7 +4,7 @@
   "authors": [
     "Mike Pugh <mikepugh82@gmail.com>"
   ],
-  "description": "Angular GeoFire v2 Module",
+  "description": "Angular GeoFire v3 Service",
   "main": "src/angularGeoFire.js",
   "keywords": [
     "angular",
