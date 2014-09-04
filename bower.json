@@ -1,6 +1,6 @@
 {
   "name": "AngularGeoFire",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "authors": [
     "Mike Pugh <mikepugh82@gmail.com>"
   ],
@@ -21,6 +21,6 @@
   ],
   "dependencies": {
     "angular": "~1.2.5",
-    "geofire": "~3.x"
+    "geofire-js": "~3.x"
   }
 }
