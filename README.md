@@ -14,10 +14,10 @@ bower install angularGeoFire
 In your app, include the Firebase and GeoFire libraries (technically AngularGeoFire doesn't depend on AngularFire but you'll probably want to use it).
 
 ````
-<script src="//cdn.firebase.com/js/client/1.0.17/firebase.js"></script>
-<script src="bower_components/rsvp/rsvp.min.js"></script>
+<script src="bower_components/firebase/dist/firebase.js"></script>
+<script src="bower_components/rsvp/rsvp.js"></script>
 <script src="bower_components/angularfire/angularfire.js"></script>
-<script src="bower_components/geofire/dist/geofire.min.js"></script>
+<script src="bower_components/geofire/dist/geofire.js"></script>
 <script src="bower_components/AngularGeoFire/dist/angularGeoFire.js"></script>
 ````
 
@@ -67,7 +67,7 @@ angular.module('yourApp')
     var geoQueryCallback = query.on("key_entered", "SEARCH:KEY_ENTERED");
 
     // Listen for Angular Broadcast
-    $rootScope.$on("SEARCH:KEY_ENTERED", function (event, key, location, distance) {
+    $scope.$on("SEARCH:KEY_ENTERED", function (event, key, location, distance) {
         // Do something interesting with object
         $scope.searchResults.push({key: key, location: location, distance: distance});
 
